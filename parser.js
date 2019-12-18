@@ -35,15 +35,19 @@ async function checkPrice() {
       console.log(`\n\nFailed to determine actual price of ${data[0]}.\n`)
     } else {
       const priceNumber = parseFloat(data[1].replace(/[₹, ]/g, ''))
-      if (priceNumber < minPrice) {
-        console.log(`\n\nThe price of ${data[0]} has dropped. Current Price ${data[1]}\n`)
+      if (minPrice) {
+        if (priceNumber < minPrice) {
+          console.log(`\n\nThe price of ${data[0]} has dropped. Current Price ${data[1]}\n`)
+        } else {
+          console.log(`\n\n${data[0]} is still expensive. Current Price ${data[1]}\n`)
+        }
       } else {
-        console.log(`\n\n${data[0]} is still expensive. Current Price ${data[1]}\n`)
+        console.log(`\n\nThe current price of ${data[0]} is ${data[1]}\n`)
       }
     }
     clearInterval(loading)
   } catch (e) {
-    console.log('Amazon Price Checker Error', e.message)
-    throw e
+    console.log('Error occured while fetching price information.')
+    // throw e
   }
 }
